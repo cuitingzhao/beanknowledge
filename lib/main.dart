@@ -67,6 +67,7 @@ class _MyAppState extends State<MyApp> {
         allowFontScaling:
             false, // Prevent font auto scalling with the system setting
         child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             initialRoute: getInitialRoute(widget.firstLaunch),
             onGenerateRoute:
                 onGenerateRoute, // This is the function defined in the router_config file
