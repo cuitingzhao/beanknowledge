@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 //这个类会被UI用来调用服务器端的api获得数据，所以应具备get/post等方法
 class ContentAPI {
-  final String _baseURL = Config.domain;
+  final String _baseURL = HostConfig.domain;
   //定义get方法
   dynamic get(String url) async {
     var responseJson;

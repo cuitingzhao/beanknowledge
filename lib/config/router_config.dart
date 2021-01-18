@@ -1,7 +1,11 @@
+import 'package:beanknowledge/src/ui/first_launch_page.dart';
 import 'package:beanknowledge/src/ui/today_content_page.dart';
 import 'package:flutter/material.dart';
 
-final routeList = {'/': (context) => TodayContentPage()};
+final routeList = {
+  '/': (context) => FirstLaunchPage(),
+  '/content': (context) => TodayContentPage()
+};
 
 //固定写法，用来处理路由
 var onGenerateRoute = (RouteSettings settings) {

@@ -1,5 +1,4 @@
 import 'package:beanknowledge/config/router_config.dart';
-import 'package:beanknowledge/src/ui/today_content_page.dart';
 import 'package:beanknowledge/util/color_helper.dart';
 import 'package:beanknowledge/util/notification_helper.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +46,7 @@ class _MyAppState extends State<MyApp> {
             initialRoute: '/',
             onGenerateRoute:
                 onGenerateRoute, // This is the function defined in the router_config file
-            home: TodayContentPage(),
+            // home: TodayContentPage(),
             // Define some themes to be reused  across different pages
             theme: ThemeData(
                 fontFamily: 'Roboto',

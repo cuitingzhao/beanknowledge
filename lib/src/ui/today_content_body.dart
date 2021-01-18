@@ -8,8 +8,8 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TodayContentBody extends StatefulWidget {
-  TodayContentBody({Key key}) : super(key: key);
-
+  TodayContentBody({Key key, @required this.contentList}) : super(key: key);
+  final List<MainContent> contentList;
   @override
   _TodayContentBodyState createState() => _TodayContentBodyState();
 }
@@ -20,25 +20,26 @@ class _TodayContentBodyState extends State<TodayContentBody> {
   //so that to share the content
   int _pageIndex = 0;
   //This list is used to store the content received from server
-  List<MainContent> _contentList = [];
-  //The content provider is used to get data from server
-  ContentProvider contentProvider = ContentProvider();
 
-  @override
-  void initState() {
-    //Whenever you override initState function, you should call super.initState() first
-    super.initState();
-    //Call the content provider to fetch the data when the app starts
-    contentProvider.fetchContentToday().then((contentList) {
-      setState(() {
-        _contentList = contentList;
-      });
-    });
-  }
+  //The content provider is used to get data from server
+  //ContentProvider contentProvider = ContentProvider();
+
+  // @override
+  // void initState() {
+  //   //Whenever you override initState function, you should call super.initState() first
+  //   super.initState();
+  //   //Call the content provider to fetch the data when the app starts
+  //   contentProvider.fetchContentToday().then((contentList) {
+  //     setState(() {
+  //       _contentList = contentList;
+  //     });
+  //   });
+  // }
 
   Widget build(BuildContext context) {
     // As we defined previously in content provider class,
     // if there is exception occured, content provider will return null
+    List<MainContent> _contentList = widget.contentList;
     if (_contentList == null) {
       return Container(
         height: ScreenUtil().setHeight(800),
@@ -51,97 +52,88 @@ class _TodayContentBodyState extends State<TodayContentBody> {
       // even though the response might be empty, so we have to decide how to handle such case
       return _contentList.isEmpty
           ? CircularProgressIndicator() // if it is empty, we will return a rolling "loading" icon
-          : RefreshIndicator(
+          : Column(
               // otherwise, we return the normal content page
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                        top: ScreenUtil().setHeight(20),
-                        left: ScreenUtil().setWidth(30),
-                        right: ScreenUtil().setWidth(30)),
-                    child: AspectRatio(
-                      aspectRatio: 3 / 5,
-                      child: Swiper(
-                          loop: false,
-                          itemCount: _contentList
-                              .length, // Defines how many pages to show
-                          pagination: SwiperPagination(
-                            // Customize pagination style
-                            builder: DotSwiperPaginationBuilder(
-                                color: Colors.grey,
-                                size: ScreenUtil().setSp(10),
-                                activeSize: ScreenUtil().setSp(15),
-                                activeColor: ColorHelper.fromHex('205072')),
-                          ),
-                          onIndexChanged: (index) {
-                            //When the index change, record the change into _pageIndex variable
-                            this._pageIndex = index;
-                          },
-                          itemBuilder: (BuildContext context, int index) {
-                            String title = _contentList[index].title;
-                            String content = _contentList[index].content;
-                            String link = _contentList[index].link;
-                            return Container(
-                                padding:
-                                    EdgeInsets.all(ScreenUtil().setWidth(50)),
-                                alignment: Alignment.center,
-                                margin: EdgeInsets.only(
-                                    top: ScreenUtil().setHeight(20),
-                                    left: ScreenUtil().setWidth(20),
-                                    right: ScreenUtil().setWidth(20),
-                                    bottom: ScreenUtil().setHeight(10)),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)),
-                                    color: ColorHelper.fromHex('FEFEFA'),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          offset: Offset(0.0, 1.0), //阴影xy轴偏移量
-                                          blurRadius: 3, //阴影模糊程度
-                                          spreadRadius: 8 //阴影扩散程度
-                                          )
-                                    ]),
-                                child: Stack(
-                                  children: [
-                                    //title
-                                    Align(
-                                        alignment: Alignment.topCenter,
-                                        child: titleWidget(title)),
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                      top: ScreenUtil().setHeight(20),
+                      left: ScreenUtil().setWidth(30),
+                      right: ScreenUtil().setWidth(30)),
+                  child: AspectRatio(
+                    aspectRatio: 3 / 5,
+                    child: Swiper(
+                        loop: false,
+                        itemCount: _contentList
+                            .length, // Defines how many pages to show
+                        pagination: SwiperPagination(
+                          // Customize pagination style
+                          builder: DotSwiperPaginationBuilder(
+                              color: Colors.grey,
+                              size: ScreenUtil().setSp(10),
+                              activeSize: ScreenUtil().setSp(15),
+                              activeColor: ColorHelper.fromHex('205072')),
+                        ),
+                        onIndexChanged: (index) {
+                          //When the index change, record the change into _pageIndex variable
+                          this._pageIndex = index;
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          String title = _contentList[index].title;
+                          String content = _contentList[index].content;
+                          String link = _contentList[index].link;
+                          return Container(
+                              padding:
+                                  EdgeInsets.all(ScreenUtil().setWidth(50)),
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                  top: ScreenUtil().setHeight(20),
+                                  left: ScreenUtil().setWidth(20),
+                                  right: ScreenUtil().setWidth(20),
+                                  bottom: ScreenUtil().setHeight(10)),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30)),
+                                  color: ColorHelper.fromHex('FEFEFA'),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        offset: Offset(0.0, 1.0), //阴影xy轴偏移量
+                                        blurRadius: 3, //阴影模糊程度
+                                        spreadRadius: 8 //阴影扩散程度
+                                        )
+                                  ]),
+                              child: Stack(
+                                children: [
+                                  //title
+                                  Align(
+                                      alignment: Alignment.topCenter,
+                                      child: titleWidget(title)),
 
-                                    // content
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: contentWidget(content),
-                                    ),
+                                  // content
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: contentWidget(content),
+                                  ),
 
-                                    // Share button
-                                    Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            shareButton(_contentList),
-                                            hyperContentWidget(link),
-                                          ],
-                                        )),
-                                  ],
-                                ));
-                          }),
-                    ),
-                  )
-                ],
-              ),
-              onRefresh: () async {
-                //Reload the data when user pull to refresh
-                await contentProvider.fetchContentToday().then((contentList) {
-                  setState(() {
-                    _contentList = contentList;
-                  });
-                });
-              });
+                                  // Share button
+                                  Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          shareButton(_contentList),
+                                          hyperContentWidget(link),
+                                        ],
+                                      )),
+                                ],
+                              ));
+                        }),
+                  ),
+                )
+              ],
+            );
     }
   }
 
