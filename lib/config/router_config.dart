@@ -3,8 +3,8 @@ import 'package:beanknowledge/src/ui/today_content_page.dart';
 import 'package:flutter/material.dart';
 
 final routeList = {
-  '/': (context) => FirstLaunchPage(),
-  '/content': (context) => TodayContentPage()
+  '/content': (context) => TodayContentPage(),
+  '/firstLaunch': (context) => FirstLaunchPage()
 };
 
 //固定写法，用来处理路由

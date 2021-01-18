@@ -1,6 +1,7 @@
 import 'package:beanknowledge/config/router_config.dart';
 import 'package:beanknowledge/util/color_helper.dart';
 import 'package:beanknowledge/util/notification_helper.dart';
+import 'package:beanknowledge/util/storage_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -20,13 +21,36 @@ void main() async {
 
   //Schedule notification time
   scheduleDaily7PMNotification(flutterLocalNotificationsPlugin);
+  bool _firstLaunch = await checkFirstLaunch();
 
-  runApp(MyApp());
+  runApp(MyApp(
+    firstLaunch: _firstLaunch,
+  ));
+}
+
+Future<bool> checkFirstLaunch() async {
+  //firstLaunch in sharedPreference can only be false or null, not other values
+  bool _firstLaunch = await StorageHelper.getBool('firstlaunch') ?? true;
+  print('[checkFirstLaunch] firstLaunch is $_firstLaunch');
+  if (_firstLaunch) {
+    StorageHelper.setBool('firstlaunch', false);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+String getInitialRoute(bool firstLaunch) {
+  if (firstLaunch) {
+    return '/firstLaunch';
+  } else {
+    return '/content';
+  }
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key key}) : super(key: key);
-
+  MyApp({Key key, @required this.firstLaunch}) : super(key: key);
+  final bool firstLaunch;
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -43,7 +67,7 @@ class _MyAppState extends State<MyApp> {
         allowFontScaling:
             false, // Prevent font auto scalling with the system setting
         child: MaterialApp(
-            initialRoute: '/',
+            initialRoute: getInitialRoute(widget.firstLaunch),
             onGenerateRoute:
                 onGenerateRoute, // This is the function defined in the router_config file
             // home: TodayContentPage(),

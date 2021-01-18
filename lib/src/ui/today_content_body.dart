@@ -1,5 +1,4 @@
 import 'package:beanknowledge/src/models/main_content.dart';
-import 'package:beanknowledge/src/services/content_provider.dart';
 import 'package:beanknowledge/util/color_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,22 +18,6 @@ class _TodayContentBodyState extends State<TodayContentBody> {
   //this variable is used to record content on current page
   //so that to share the content
   int _pageIndex = 0;
-  //This list is used to store the content received from server
-
-  //The content provider is used to get data from server
-  //ContentProvider contentProvider = ContentProvider();
-
-  // @override
-  // void initState() {
-  //   //Whenever you override initState function, you should call super.initState() first
-  //   super.initState();
-  //   //Call the content provider to fetch the data when the app starts
-  //   contentProvider.fetchContentToday().then((contentList) {
-  //     setState(() {
-  //       _contentList = contentList;
-  //     });
-  //   });
-  // }
 
   Widget build(BuildContext context) {
     // As we defined previously in content provider class,
@@ -56,10 +39,8 @@ class _TodayContentBodyState extends State<TodayContentBody> {
               // otherwise, we return the normal content page
               children: [
                 Container(
-                  margin: EdgeInsets.only(
-                      top: ScreenUtil().setHeight(20),
-                      left: ScreenUtil().setWidth(30),
-                      right: ScreenUtil().setWidth(30)),
+                  margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(30),
+                      ScreenUtil().setHeight(20), ScreenUtil().setWidth(30), 0),
                   child: AspectRatio(
                     aspectRatio: 3 / 5,
                     child: Swiper(
@@ -86,11 +67,11 @@ class _TodayContentBodyState extends State<TodayContentBody> {
                               padding:
                                   EdgeInsets.all(ScreenUtil().setWidth(50)),
                               alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                  top: ScreenUtil().setHeight(20),
-                                  left: ScreenUtil().setWidth(20),
-                                  right: ScreenUtil().setWidth(20),
-                                  bottom: ScreenUtil().setHeight(10)),
+                              margin: EdgeInsets.fromLTRB(
+                                  ScreenUtil().setWidth(20),
+                                  ScreenUtil().setHeight(20),
+                                  ScreenUtil().setWidth(20),
+                                  ScreenUtil().setHeight(10)),
                               decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(30)),

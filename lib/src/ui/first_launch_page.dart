@@ -54,11 +54,12 @@ class FirstLaunchPage extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/content');
             },
             style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.only(
-                  top: ScreenUtil().setHeight(20),
-                  bottom: ScreenUtil().setHeight(20),
-                  left: ScreenUtil().setWidth(80),
-                  right: ScreenUtil().setWidth(80)),
+              padding: EdgeInsets.fromLTRB(
+                ScreenUtil().setWidth(80),
+                ScreenUtil().setHeight(20),
+                ScreenUtil().setWidth(80),
+                ScreenUtil().setHeight(20),
+              ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0)),
               primary: ColorHelper.fromHex('329D9C'),
